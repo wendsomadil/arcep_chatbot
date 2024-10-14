@@ -1,0 +1,15 @@
+google-generativeai
+flask
+pandas
+openpyxl
+PyPDF2
+pdfplumber
+python-dotenv
+pymupdf
+pdf2image 
+pytesseract 
+pillow
+transformers
+torch
+pytesseract
+numpy

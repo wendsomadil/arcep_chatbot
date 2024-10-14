@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Juridique ARCEP</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">ARCEP Juridique</div>
+            <ul>
+                <li><a href="/" class="active">Accueil</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Bienvenue au Chatbot Juridique de l'ARCEP</h1>
+            <p>Posez vos questions juridiques et obtenez des réponses instantanées.</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box"></div>
+            <div class="input-container">
+                <input type="text" id="user-input" placeholder="Posez votre question ici..." />
+                <button class="primary-button" id="send-button">
+                    <i class="fas fa-paper-plane"></i> Envoyer
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ARCEP. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('#send-button').click(function () {
+                var userInput = $('#user-input').val();
+                if (userInput.trim() !== "") {
+                    $('#chat-box').append('<div class="user-message">' + userInput + '</div>');
+                    $.post('/ask', { message: userInput }, function (data) {
+                        $('#chat-box').append('<div class="bot-response">' + data.response + '</div>');
+                    }).fail(function () {
+                        $('#chat-box').append('<div class="bot-response">Erreur lors de la récupération de la réponse.</div>');
+                    });
+                    $('#user-input').val('');
+                    $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                }
+            });
+
+            $('#user-input').keypress(function (e) {
+                if (e.which == 13) {
+                    $('#send-button').click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
